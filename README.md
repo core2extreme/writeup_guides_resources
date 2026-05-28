@@ -1,4 +1,3 @@
-````md
 # The almost™ Complete Guide Collection
 
 A growing collection of practical cybersecurity writeups, diagrams, cheat sheets, and SOC analyst references.
@@ -75,5 +74,3 @@ This repository is licensed under the terms specified in the LICENSE file.
 
 This repository is intended for educational and defensive security purposes only.
 
-```
-```
