@@ -1,0 +1,1262 @@
+% =====================================================
+% core2extreme Cybersecurity Blue Team Writeup Template
+% Overleaf-ready LaTeX Template
+% Author: Michael Fajkus
+% Repository: https://github.com/core2extreme/writeup_guides_resources
+% =====================================================
+
+\documentclass[11pt,a4paper]{article}
+
+% =====================================================
+% PAGE SETUP
+% =====================================================
+\usepackage[a4paper,margin=0.9in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{hyperref}
+\usepackage[most]{tcolorbox}
+\usepackage{listings}
+\usepackage{enumitem}
+\usepackage{parskip}
+\usepackage{pagecolor}
+\usepackage{fancyhdr}
+\usepackage{float}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{tocloft}
+\usepackage{needspace}
+\usepackage{caption}
+\usepackage{booktabs}
+\usepackage{tabularx}
+
+% =====================================================
+% FONT SETUP
+% =====================================================
+\usepackage[sfdefault]{FiraSans}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage[scaled=0.9]{FiraMono}
+
+% =====================================================
+% TEMPLATE VARIABLES
+% Change these values for every new writeup.
+% =====================================================
+\newcommand{\doctitle}{Cybersecurity Blue Team Writeup}
+\newcommand{\docsubtitle}{Technical Guide / Short Analyst Playbook}
+\newcommand{\doccategory}{SOC / DFIR / Detection Engineering}
+\newcommand{\docauthor}{Your Name}
+\newcommand{\docversion}{1.0}
+\newcommand{\docrepo}{https://github.com/core2extreme/writeup\_guides\_resources}
+\newcommand{\docrepourl}{https://github.com/core2extreme/writeup_guides_resources}
+\newcommand{\doctags}{Blue Team | SOC | DFIR | Detection Engineering | Threat Hunting}
+
+% =====================================================
+% COLOR PALETTE
+% =====================================================
+\definecolor{bg}{HTML}{0B1020}
+\definecolor{text}{HTML}{C9D1D9}
+\definecolor{muted}{HTML}{8B949E}
+\definecolor{primary}{HTML}{00D1FF}
+\definecolor{secondary}{HTML}{7C4DFF}
+\definecolor{accent}{HTML}{00FFB3}
+\definecolor{warning}{HTML}{FF5F56}
+\definecolor{boxbg}{HTML}{111827}
+\definecolor{codebg}{HTML}{161B22}
+\definecolor{ioc}{HTML}{FFD166}
+\definecolor{mitre}{HTML}{FF8C42}
+\definecolor{detection}{HTML}{00E5FF}
+\definecolor{ir}{HTML}{B388FF}
+
+\pagecolor{bg}
+\color{text}
+
+% =====================================================
+% GLOBAL SPACING
+% =====================================================
+\setlength{\parskip}{0.45em}
+\setlength{\parindent}{0pt}
+\setlength{\textfloatsep}{8pt}
+\setlength{\floatsep}{8pt}
+\setlength{\intextsep}{8pt}
+
+% =====================================================
+% HYPERLINKS AND PDF METADATA
+% =====================================================
+\hypersetup{
+    pdftitle={\doctitle},
+    pdfauthor={\docauthor},
+    pdfsubject={\doccategory},
+    pdfkeywords={SOC, DFIR, Blue Team, Detection Engineering, Threat Hunting, Incident Response},
+    colorlinks=true,
+    urlcolor=primary,
+    linkcolor=primary,
+    citecolor=accent
+}
+
+% =====================================================
+% TABLE OF CONTENTS STYLE
+% =====================================================
+\renewcommand{\cftsecfont}{\color{primary}\bfseries}
+\renewcommand{\cftsubsecfont}{\color{text}}
+\renewcommand{\cftsubsubsecfont}{\color{muted}}
+\renewcommand{\cftsecpagefont}{\color{primary}\bfseries}
+\renewcommand{\cftsubsecpagefont}{\color{text}}
+\renewcommand{\cftsubsubsecpagefont}{\color{muted}}
+\renewcommand{\cftdotsep}{1}
+% =====================================================
+% core2extreme Cybersecurity Blue Team Writeup Template
+% Overleaf-ready LaTeX Template
+% Author: Michael Fajkus
+% Repository: https://github.com/core2extreme/writeup_guides_resources
+% =====================================================
+
+\documentclass[11pt,a4paper]{article}
+
+% =====================================================
+% PAGE SETUP
+% =====================================================
+\usepackage[a4paper,margin=0.9in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{hyperref}
+\usepackage[most]{tcolorbox}
+\usepackage{listings}
+\usepackage{enumitem}
+\usepackage{parskip}
+\usepackage{pagecolor}
+\usepackage{fancyhdr}
+\usepackage{float}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{tocloft}
+\usepackage{needspace}
+\usepackage{caption}
+\usepackage{booktabs}
+\usepackage{tabularx}
+
+% =====================================================
+% FONT SETUP
+% =====================================================
+\usepackage[sfdefault]{FiraSans}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage[scaled=0.9]{FiraMono}
+
+% =====================================================
+% TEMPLATE VARIABLES
+% Change these values for every new writeup.
+% =====================================================
+\newcommand{\doctitle}{Cybersecurity Blue Team Writeup}
+\newcommand{\docsubtitle}{Technical Guide / Short Analyst Playbook}
+\newcommand{\doccategory}{SOC / DFIR / Detection Engineering}
+\newcommand{\docauthor}{Your Name}
+\newcommand{\docversion}{1.0}
+\newcommand{\docrepo}{https://github.com/core2extreme/writeup\_guides\_resources}
+\newcommand{\docrepourl}{https://github.com/core2extreme/writeup_guides_resources}
+\newcommand{\doctags}{Blue Team | SOC | DFIR | Detection Engineering | Threat Hunting}
+
+% =====================================================
+% COLOR PALETTE
+% =====================================================
+\definecolor{bg}{HTML}{0B1020}
+\definecolor{text}{HTML}{C9D1D9}
+\definecolor{muted}{HTML}{8B949E}
+\definecolor{primary}{HTML}{00D1FF}
+\definecolor{secondary}{HTML}{7C4DFF}
+\definecolor{accent}{HTML}{00FFB3}
+\definecolor{warning}{HTML}{FF5F56}
+\definecolor{boxbg}{HTML}{111827}
+\definecolor{codebg}{HTML}{161B22}
+\definecolor{ioc}{HTML}{FFD166}
+\definecolor{mitre}{HTML}{FF8C42}
+\definecolor{detection}{HTML}{00E5FF}
+\definecolor{ir}{HTML}{B388FF}
+
+\pagecolor{bg}
+\color{text}
+
+% =====================================================
+% GLOBAL SPACING
+% =====================================================
+\setlength{\parskip}{0.45em}
+\setlength{\parindent}{0pt}
+\setlength{\textfloatsep}{8pt}
+\setlength{\floatsep}{8pt}
+\setlength{\intextsep}{8pt}
+
+% =====================================================
+% HYPERLINKS AND PDF METADATA
+% =====================================================
+\hypersetup{
+    pdftitle={\doctitle},
+    pdfauthor={\docauthor},
+    pdfsubject={\doccategory},
+    pdfkeywords={SOC, DFIR, Blue Team, Detection Engineering, Threat Hunting, Incident Response},
+    colorlinks=true,
+    urlcolor=primary,
+    linkcolor=primary,
+    citecolor=accent
+}
+
+% =====================================================
+% TABLE OF CONTENTS STYLE
+% =====================================================
+\renewcommand{\cftsecfont}{\color{primary}\bfseries}
+\renewcommand{\cftsubsecfont}{\color{text}}
+\renewcommand{\cftsubsubsecfont}{\color{muted}}
+\renewcommand{\cftsecpagefont}{\color{primary}\bfseries}
+\renewcommand{\cftsubsecpagefont}{\color{text}}
+\renewcommand{\cftsubsubsecpagefont}{\color{muted}}
+\renewcommand{\cftdotsep}{1}
+
+% =====================================================
+% CAPTION STYLE
+% =====================================================
+\captionsetup{
+    labelfont={bf,color=primary},
+    textfont={color=text},
+    font=small,
+    skip=6pt
+}
+
+% =====================================================
+% HEADER / FOOTER
+% =====================================================
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\textcolor{primary}{\doctitle}}
+\fancyhead[R]{\textcolor{secondary}{\doccategory}}
+\fancyfoot[L]{\textcolor{muted}{core2extreme}}
+\fancyfoot[C]{\textcolor{primary}{\thepage}}
+\fancyfoot[R]{\textcolor{muted}{\docversion}}
+
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{primary}\leaders\hrule height \headrulewidth\hfill}}
+\renewcommand{\footrule}{\hbox to\headwidth{\color{secondary}\leaders\hrule height \footrulewidth\hfill}}
+
+% =====================================================
+% SECTION STYLE
+% =====================================================
+\titleformat{\section}
+{\Huge\bfseries\color{primary}}
+{\thesection}
+{0.6em}
+{}
+
+\titleformat{\subsection}
+{\Large\bfseries\color{accent}}
+{\thesubsection}
+{0.6em}
+{}
+
+\titleformat{\subsubsection}
+{\large\bfseries\color{secondary}}
+{\thesubsubsection}
+{0.6em}
+{}
+
+\titlespacing*{\section}{0pt}{0.6cm}{0.45cm}
+\titlespacing*{\subsection}{0pt}{0.55cm}{0.25cm}
+\titlespacing*{\subsubsection}{0pt}{0.4cm}{0.2cm}
+
+% Start every new main heading on a new page.
+\let\oldsection\section
+\renewcommand{\section}{\clearpage\oldsection}
+
+% =====================================================
+% LIST STYLE
+% =====================================================
+\setlist[itemize]{label=\textcolor{primary}{>}, leftmargin=1.5em}
+\setlist[enumerate]{label=\textcolor{primary}{\arabic*.}, leftmargin=1.7em}
+
+% =====================================================
+% CODE LISTING STYLE
+% =====================================================
+\lstdefinestyle{cyber}{
+    backgroundcolor=\color{codebg},
+    basicstyle=\ttfamily\small\color{text},
+    keywordstyle=\color{primary}\bfseries,
+    commentstyle=\color{accent},
+    stringstyle=\color{warning},
+    numberstyle=\tiny\color{muted},
+    breaklines=true,
+    frame=single,
+    rulecolor=\color{primary},
+    columns=fullflexible,
+    keepspaces=true,
+    showstringspaces=false,
+    numbers=left,
+    xleftmargin=1.4em,
+    framexleftmargin=1.2em
+}
+
+\lstset{style=cyber}
+
+% =====================================================
+% CUSTOM BOXES
+% =====================================================
+\newtcolorbox{socbox}[1][]{
+    enhanced,
+    colback=boxbg,
+    colframe=primary,
+    coltext=text,
+    arc=6pt,
+    boxrule=1pt,
+    left=10pt,
+    right=10pt,
+    top=10pt,
+    bottom=10pt,
+    title=\textbf{SOC Note},
+    fonttitle=\bfseries\color{bg},
+    coltitle=bg,
+    colbacktitle=primary,
+    #1
+}
+
+\newtcolorbox{warningbox}[1][]{
+    enhanced,
+    colback=boxbg,
+    colframe=warning,
+    coltext=text,
+    arc=6pt,
+    boxrule=1pt,
+    left=10pt,
+    right=10pt,
+    top=10pt,
+    bottom=10pt,
+    title=\textbf{Warning},
+    fonttitle=\bfseries\color{bg},
+    coltitle=bg,
+    colbacktitle=warning,
+    #1
+}
+
+\newtcolorbox{detectionbox}[1][]{
+    enhanced,
+    colback=boxbg,
+    colframe=detection,
+    coltext=text,
+    arc=6pt,
+    boxrule=1pt,
+    left=10pt,
+    right=10pt,
+    top=10pt,
+    bottom=10pt,
+    title=\textbf{Detection Opportunity},
+    fonttitle=\bfseries\color{bg},
+    coltitle=bg,
+    colbacktitle=detection,
+    #1
+}
+
+\newtcolorbox{iocbox}[1][]{
+    enhanced,
+    colback=boxbg,
+    colframe=ioc,
+    coltext=text,
+    arc=6pt,
+    boxrule=1pt,
+    left=10pt,
+    right=10pt,
+    top=10pt,
+    bottom=10pt,
+    title=\textbf{IOC Box},
+    fonttitle=\bfseries\color{bg},
+    coltitle=bg,
+    colbacktitle=ioc,
+    #1
+}
+
+\newtcolorbox{mitrebox}[1][]{
+    enhanced,
+    colback=boxbg,
+    colframe=mitre,
+    coltext=text,
+    arc=6pt,
+    boxrule=1pt,
+    left=10pt,
+    right=10pt,
+    top=10pt,
+    bottom=10pt,
+    title=\textbf{MITRE ATT\&CK Mapping},
+    fonttitle=\bfseries\color{bg},
+    coltitle=bg,
+    colbacktitle=mitre,
+    #1
+}
+
+\newtcolorbox{irbox}[1][]{
+    enhanced,
+    colback=boxbg,
+    colframe=ir,
+    coltext=text,
+    arc=6pt,
+    boxrule=1pt,
+    left=10pt,
+    right=10pt,
+    top=10pt,
+    bottom=10pt,
+    title=\textbf{IR Tip},
+    fonttitle=\bfseries\color{bg},
+    coltitle=bg,
+    colbacktitle=ir,
+    #1
+}
+
+% =====================================================
+% HELPER COMMANDS
+% =====================================================
+\newcommand{\placeholder}{\textcolor{muted}{Lorem ipsum dolor sit amet, consectetur adipiscing elit. Replace this placeholder with writeup content.}}
+\newcommand{\inlinecode}[1]{\texttt{\textcolor{accent}{#1}}}
+
+% Generic figure placeholder.
+% Usage:
+% \imageplaceholder{Caption text}
+\newcommand{\imageplaceholder}[1]{
+\begin{figure}[H]
+\centering
+\begin{tcolorbox}[
+    colback=codebg,
+    colframe=primary,
+    coltext=muted,
+    width=\textwidth,
+    height=0.28\textheight,
+    valign=center,
+    halign=center,
+    arc=6pt,
+    boxrule=1pt
+]
+Image / Diagram Placeholder
+\end{tcolorbox}
+\caption{#1}
+\end{figure}
+}
+
+% =====================================================
+% TITLE PAGE
+% =====================================================
+\title{
+\vspace{-1cm}
+
+\Huge
+\textbf{\textcolor{primary}{Title 1}}\\
+
+\vspace{0.2cm}
+
+\textbf{\textcolor{white}{\doctitle}}
+
+\vspace{0.8cm}
+
+\Large
+\textcolor{accent}{\docsubtitle}
+
+\vspace{0.8cm}
+
+\normalsize
+\textcolor{muted}{\doctags}
+
+\vspace{1.2cm}
+
+\Large
+\textcolor{text}{\docauthor}
+
+\vspace{0.3cm}
+
+\normalsize
+\textcolor{muted}{Version \docversion{} --- \today}
+}
+
+\author{}
+\date{}
+
+% =====================================================
+% DOCUMENT START
+% =====================================================
+\begin{document}
+
+\pagenumbering{gobble}
+
+\maketitle
+\thispagestyle{empty}
+
+\vfill
+
+\begin{center}
+\begin{tcolorbox}[
+    colback=boxbg,
+    colframe=primary,
+    coltext=text,
+    width=0.85\textwidth,
+    arc=6pt,
+    boxrule=1pt,
+    left=12pt,
+    right=12pt,
+    top=12pt,
+    bottom=12pt
+]
+\centering
+\textbf{\textcolor{primary}{Purpose}}\\
+Reusable Blue Team writeup template for SOC analysts, DFIR practitioners, incident responders, threat hunters and detection engineers.
+\end{tcolorbox}
+\end{center}
+
+\clearpage
+
+\tableofcontents
+\thispagestyle{empty}
+
+\clearpage
+
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+% =====================================================
+% CONTENT SKELETON
+% =====================================================
+
+\section{Heading 1}
+
+\begin{socbox}
+\placeholder
+\end{socbox}
+
+\subsection{Subheading 1.1}
+
+\placeholder
+
+\subsection{Subheading 1.2}
+
+\placeholder
+
+\begin{lstlisting}[language=bash,caption={Command Example}]
+# Replace this with a real command, query, rule, or script.
+echo "Hello Blue Team"
+\end{lstlisting}
+
+\section{Heading 2}
+
+\subsection{Subheading 2.1}
+
+\placeholder
+
+\subsection{Subheading 2.2}
+
+\placeholder
+
+\begin{detectionbox}
+Use this box for detection logic, hunting ideas, SIEM queries, analytic notes or suspicious behavior patterns.
+\end{detectionbox}
+
+\section{Heading 3}
+
+\subsection{Subheading 3.1}
+
+\placeholder
+
+\subsection{Subheading 3.2}
+
+\placeholder
+
+\imageplaceholder{Generic Diagram Placeholder}
+
+\section{Heading 4}
+
+\subsection{Subheading 4.1}
+
+\placeholder
+
+\subsection{Subheading 4.2}
+
+\placeholder
+
+\begin{iocbox}
+\begin{itemize}
+    \item Domain: \inlinecode{example.com}
+    \item IP Address: \inlinecode{203.0.113.10}
+    \item URL: \inlinecode{https://example.com/path}
+    \item Hash: \inlinecode{aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa}
+\end{itemize}
+\end{iocbox}
+
+\section{Heading 5}
+
+\subsection{Subheading 5.1}
+
+\placeholder
+
+\subsection{Subheading 5.2}
+
+\placeholder
+
+\begin{mitrebox}
+\begin{itemize}
+    \item Technique ID: \inlinecode{TXXXX}
+    \item Technique Name: Placeholder Technique
+    \item Tactic: Placeholder Tactic
+    \item Analyst Note: Replace with real ATT\&CK context.
+\end{itemize}
+\end{mitrebox}
+
+\section{Heading 6}
+
+\subsection{Subheading 6.1}
+
+\placeholder
+
+\subsection{Subheading 6.2}
+
+\placeholder
+
+\begin{warningbox}
+Use this box for caveats, false positives, operational risks, assumptions or investigation warnings.
+\end{warningbox}
+
+\section{Heading 7}
+
+\subsection{Subheading 7.1}
+
+\placeholder
+
+\subsection{Subheading 7.2}
+
+\placeholder
+
+\begin{irbox}
+Use this box for containment, eradication, recovery, escalation or evidence preservation notes.
+\end{irbox}
+
+\section{Heading 8}
+
+\subsection{Subheading 8.1}
+
+\placeholder
+
+\subsection{Subheading 8.2}
+
+\placeholder
+
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.28\textwidth} >{\raggedright\arraybackslash}p{0.62\textwidth}}
+\toprule
+\textcolor{primary}{\textbf{Field}} & \textcolor{primary}{\textbf{Description}} \\
+\midrule
+Placeholder 1 & Replace with analyst-relevant information. \\
+Placeholder 2 & Replace with analyst-relevant information. \\
+Placeholder 3 & Replace with analyst-relevant information. \\
+\bottomrule
+\end{longtable}
+
+\section{Heading 9}
+
+\subsection{Subheading 9.1}
+
+\placeholder
+
+\subsection{Subheading 9.2}
+
+\placeholder
+
+\begin{lstlisting}[language=Python,caption={Python Example}]
+# Replace this with real analysis code.
+def analyze_artifact(artifact):
+    return f"Analyzing {artifact}"
+
+print(analyze_artifact("placeholder"))
+\end{lstlisting}
+
+\section{Heading 10}
+
+\subsection{Subheading 10.1}
+
+\placeholder
+
+\subsection{Subheading 10.2}
+
+\placeholder
+
+\begin{socbox}
+Use this final note for key takeaways, summary points or analyst recommendations.
+\end{socbox}
+
+% =====================================================
+% RESOURCES
+% =====================================================
+\section{Resources}
+
+\begin{socbox}
+\textbf{GitHub Repository:}
+
+\href{\docrepourl}{\docrepo}
+
+\vspace{0.3cm}
+
+Repository contents may include:
+
+\begin{itemize}
+    \item Full-resolution diagrams
+    \item PDF exports
+    \item LaTeX source
+    \item IOC examples
+    \item Sample logs
+    \item Detection examples
+    \item Additional references
+\end{itemize}
+\end{socbox}
+
+\subsection{Additional References}
+
+\begin{itemize}
+    \item Vendor documentation
+    \item Microsoft Learn
+    \item MITRE ATT\&CK
+    \item Security research blogs
+    \item Internal SOC / DFIR notes
+\end{itemize}
+
+% =====================================================
+% DISCLAIMER
+% =====================================================
+\section{Disclaimer}
+
+\begin{warningbox}
+Educational and defensive security purposes only.
+
+All content is intended for Blue Team, Detection Engineering, Threat Hunting, Incident Response and Security Operations use cases.
+\end{warningbox}
+
+\vspace{1cm}
+
+\begin{center}
+\Huge
+\textcolor{primary}{Stay curious. Hunt anomalies.}
+\end{center}
+
+\end{document}
+
+% =====================================================
+% CAPTION STYLE
+% =====================================================
+\captionsetup{
+    labelfont={bf,color=primary},
+    textfont={color=text},
+    font=small,
+    skip=6pt
+}
+
+% =====================================================
+% HEADER / FOOTER
+% =====================================================
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\textcolor{primary}{\doctitle}}
+\fancyhead[R]{\textcolor{secondary}{\doccategory}}
+\fancyfoot[L]{\textcolor{muted}{core2extreme}}
+\fancyfoot[C]{\textcolor{primary}{\thepage}}
+\fancyfoot[R]{\textcolor{muted}{\docversion}}
+
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{primary}\leaders\hrule height \headrulewidth\hfill}}
+\renewcommand{\footrule}{\hbox to\headwidth{\color{secondary}\leaders\hrule height \footrulewidth\hfill}}
+
+% =====================================================
+% SECTION STYLE
+% =====================================================
+\titleformat{\section}
+{\Huge\bfseries\color{primary}}
+{\thesection}
+{0.6em}
+{}
+
+\titleformat{\subsection}
+{\Large\bfseries\color{accent}}
+{\thesubsection}
+{0.6em}
+{}
+
+\titleformat{\subsubsection}
+{\large\bfseries\color{secondary}}
+{\thesubsubsection}
+{0.6em}
+{}
+
+\titlespacing*{\section}{0pt}{0.6cm}{0.45cm}
+\titlespacing*{\subsection}{0pt}{0.55cm}{0.25cm}
+\titlespacing*{\subsubsection}{0pt}{0.4cm}{0.2cm}
+
+% Start every new main heading on a new page.
+\let\oldsection\section
+\renewcommand{\section}{\clearpage\oldsection}
+
+% =====================================================
+% LIST STYLE
+% =====================================================
+\setlist[itemize]{label=\textcolor{primary}{>}, leftmargin=1.5em}
+\setlist[enumerate]{label=\textcolor{primary}{\arabic*.}, leftmargin=1.7em}
+
+% =====================================================
+% CODE LISTING STYLE
+% =====================================================
+\lstdefinestyle{cyber}{
+    backgroundcolor=\color{codebg},
+    basicstyle=\ttfamily\small\color{text},
+    keywordstyle=\color{primary}\bfseries,
+    commentstyle=\color{accent},
+    stringstyle=\color{warning},
+    numberstyle=\tiny\color{muted},
+    breaklines=true,
+    frame=single,
+    rulecolor=\color{primary},
+    columns=fullflexible,
+    keepspaces=true,
+    showstringspaces=false,
+    numbers=left,
+    xleftmargin=1.4em,
+    framexleftmargin=1.2em
+}
+
+\lstset{style=cyber}
+
+% =====================================================
+% CUSTOM BOXES
+% =====================================================
+\newtcolorbox{socbox}[1][]{
+    enhanced,
+    colback=boxbg,
+    colframe=primary,
+    coltext=text,
+    arc=6pt,
+    boxrule=1pt,
+    left=10pt,
+    right=10pt,
+    top=10pt,
+    bottom=10pt,
+    title=\textbf{SOC Note},
+    fonttitle=\bfseries\color{bg},
+    coltitle=bg,
+    colbacktitle=primary,
+    #1
+}
+
+\newtcolorbox{warningbox}[1][]{
+    enhanced,
+    colback=boxbg,
+    colframe=warning,
+    coltext=text,
+    arc=6pt,
+    boxrule=1pt,
+    left=10pt,
+    right=10pt,
+    top=10pt,
+    bottom=10pt,
+    title=\textbf{Warning},
+    fonttitle=\bfseries\color{bg},
+    coltitle=bg,
+    colbacktitle=warning,
+    #1
+}
+
+\newtcolorbox{detectionbox}[1][]{
+    enhanced,
+    colback=boxbg,
+    colframe=detection,
+    coltext=text,
+    arc=6pt,
+    boxrule=1pt,
+    left=10pt,
+    right=10pt,
+    top=10pt,
+    bottom=10pt,
+    title=\textbf{Detection Opportunity},
+    fonttitle=\bfseries\color{bg},
+    coltitle=bg,
+    colbacktitle=detection,
+    #1
+}
+
+\newtcolorbox{iocbox}[1][]{
+    enhanced,
+    colback=boxbg,
+    colframe=ioc,
+    coltext=text,
+    arc=6pt,
+    boxrule=1pt,
+    left=10pt,
+    right=10pt,
+    top=10pt,
+    bottom=10pt,
+    title=\textbf{IOC Box},
+    fonttitle=\bfseries\color{bg},
+    coltitle=bg,
+    colbacktitle=ioc,
+    #1
+}
+
+\newtcolorbox{mitrebox}[1][]{
+    enhanced,
+    colback=boxbg,
+    colframe=mitre,
+    coltext=text,
+    arc=6pt,
+    boxrule=1pt,
+    left=10pt,
+    right=10pt,
+    top=10pt,
+    bottom=10pt,
+    title=\textbf{MITRE ATT\&CK Mapping},
+    fonttitle=\bfseries\color{bg},
+    coltitle=bg,
+    colbacktitle=mitre,
+    #1
+}
+
+\newtcolorbox{irbox}[1][]{
+    enhanced,
+    colback=boxbg,
+    colframe=ir,
+    coltext=text,
+    arc=6pt,
+    boxrule=1pt,
+    left=10pt,
+    right=10pt,
+    top=10pt,
+    bottom=10pt,
+    title=\textbf{IR Tip},
+    fonttitle=\bfseries\color{bg},
+    coltitle=bg,
+    colbacktitle=ir,
+    #1
+}
+
+% =====================================================
+% HELPER COMMANDS
+% =====================================================
+\newcommand{\placeholder}{\textcolor{muted}{Lorem ipsum dolor sit amet, consectetur adipiscing elit. Replace this placeholder with writeup content.}}
+\newcommand{\inlinecode}[1]{\texttt{\textcolor{accent}{#1}}}
+
+% Generic figure placeholder.
+% Usage:
+% \imageplaceholder{Caption text}
+\newcommand{\imageplaceholder}[1]{
+\begin{figure}[H]
+\centering
+\begin{tcolorbox}[
+    colback=codebg,
+    colframe=primary,
+    coltext=muted,
+    width=\textwidth,
+    height=0.28\textheight,
+    valign=center,
+    halign=center,
+    arc=6pt,
+    boxrule=1pt
+]
+Image / Diagram Placeholder
+\end{tcolorbox}
+\caption{#1}
+\end{figure}
+}
+
+% =====================================================
+% TITLE PAGE
+% =====================================================
+\title{
+\vspace{-1cm}
+
+\Huge
+\textbf{\textcolor{primary}{core2extreme}}\\
+
+\vspace{0.2cm}
+
+\textbf{\textcolor{white}{\doctitle}}
+
+\vspace{0.8cm}
+
+\Large
+\textcolor{accent}{\docsubtitle}
+
+\vspace{0.8cm}
+
+\normalsize
+\textcolor{muted}{\doctags}
+
+\vspace{1.2cm}
+
+\Large
+\textcolor{text}{\docauthor}
+
+\vspace{0.3cm}
+
+\normalsize
+\textcolor{muted}{Version \docversion{} --- \today}
+}
+
+\author{}
+\date{}
+
+% =====================================================
+% DOCUMENT START
+% =====================================================
+\begin{document}
+
+\pagenumbering{gobble}
+
+\maketitle
+\thispagestyle{empty}
+
+\vfill
+
+\begin{center}
+\begin{tcolorbox}[
+    colback=boxbg,
+    colframe=primary,
+    coltext=text,
+    width=0.85\textwidth,
+    arc=6pt,
+    boxrule=1pt,
+    left=12pt,
+    right=12pt,
+    top=12pt,
+    bottom=12pt
+]
+\centering
+\textbf{\textcolor{primary}{Purpose}}\\
+Reusable Blue Team writeup template for SOC analysts, DFIR practitioners, incident responders, threat hunters and detection engineers.
+\end{tcolorbox}
+\end{center}
+
+\clearpage
+
+\tableofcontents
+\thispagestyle{empty}
+
+\clearpage
+
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+% =====================================================
+% CONTENT SKELETON
+% =====================================================
+
+\section{Heading 1}
+
+\begin{socbox}
+\placeholder
+\end{socbox}
+
+\subsection{Subheading 1.1}
+
+\placeholder
+
+\subsection{Subheading 1.2}
+
+\placeholder
+
+\begin{lstlisting}[language=bash,caption={Command Example}]
+# Replace this with a real command, query, rule, or script.
+echo "Hello Blue Team"
+\end{lstlisting}
+
+\section{Heading 2}
+
+\subsection{Subheading 2.1}
+
+\placeholder
+
+\subsection{Subheading 2.2}
+
+\placeholder
+
+\begin{detectionbox}
+Use this box for detection logic, hunting ideas, SIEM queries, analytic notes or suspicious behavior patterns.
+\end{detectionbox}
+
+\section{Heading 3}
+
+\subsection{Subheading 3.1}
+
+\placeholder
+
+\subsection{Subheading 3.2}
+
+\placeholder
+
+\imageplaceholder{Generic Diagram Placeholder}
+
+\section{Heading 4}
+
+\subsection{Subheading 4.1}
+
+\placeholder
+
+\subsection{Subheading 4.2}
+
+\placeholder
+
+\begin{iocbox}
+\begin{itemize}
+    \item Domain: \inlinecode{example.com}
+    \item IP Address: \inlinecode{203.0.113.10}
+    \item URL: \inlinecode{https://example.com/path}
+    \item Hash: \inlinecode{aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa}
+\end{itemize}
+\end{iocbox}
+
+\section{Heading 5}
+
+\subsection{Subheading 5.1}
+
+\placeholder
+
+\subsection{Subheading 5.2}
+
+\placeholder
+
+\begin{mitrebox}
+\begin{itemize}
+    \item Technique ID: \inlinecode{TXXXX}
+    \item Technique Name: Placeholder Technique
+    \item Tactic: Placeholder Tactic
+    \item Analyst Note: Replace with real ATT\&CK context.
+\end{itemize}
+\end{mitrebox}
+
+\section{Heading 6}
+
+\subsection{Subheading 6.1}
+
+\placeholder
+
+\subsection{Subheading 6.2}
+
+\placeholder
+
+\begin{warningbox}
+Use this box for caveats, false positives, operational risks, assumptions or investigation warnings.
+\end{warningbox}
+
+\section{Heading 7}
+
+\subsection{Subheading 7.1}
+
+\placeholder
+
+\subsection{Subheading 7.2}
+
+\placeholder
+
+\begin{irbox}
+Use this box for containment, eradication, recovery, escalation or evidence preservation notes.
+\end{irbox}
+
+\section{Heading 8}
+
+\subsection{Subheading 8.1}
+
+\placeholder
+
+\subsection{Subheading 8.2}
+
+\placeholder
+
+\begin{longtable}{>{\raggedright\arraybackslash}p{0.28\textwidth} >{\raggedright\arraybackslash}p{0.62\textwidth}}
+\toprule
+\textcolor{primary}{\textbf{Field}} & \textcolor{primary}{\textbf{Description}} \\
+\midrule
+Placeholder 1 & Replace with analyst-relevant information. \\
+Placeholder 2 & Replace with analyst-relevant information. \\
+Placeholder 3 & Replace with analyst-relevant information. \\
+\bottomrule
+\end{longtable}
+
+\section{Heading 9}
+
+\subsection{Subheading 9.1}
+
+\placeholder
+
+\subsection{Subheading 9.2}
+
+\placeholder
+
+\begin{lstlisting}[language=Python,caption={Python Example}]
+# Replace this with real analysis code.
+def analyze_artifact(artifact):
+    return f"Analyzing {artifact}"
+
+print(analyze_artifact("placeholder"))
+\end{lstlisting}
+
+\section{Heading 10}
+
+\subsection{Subheading 10.1}
+
+\placeholder
+
+\subsection{Subheading 10.2}
+
+\placeholder
+
+\begin{socbox}
+Use this final note for key takeaways, summary points or analyst recommendations.
+\end{socbox}
+
+% =====================================================
+% RESOURCES
+% =====================================================
+\section{Resources}
+
+\begin{socbox}
+\textbf{GitHub Repository:}
+
+\href{\docrepourl}{\docrepo}
+
+\vspace{0.3cm}
+
+Repository contents may include:
+
+\begin{itemize}
+    \item Full-resolution diagrams
+    \item PDF exports
+    \item LaTeX source
+    \item IOC examples
+    \item Sample logs
+    \item Detection examples
+    \item Additional references
+\end{itemize}
+\end{socbox}
+
+\subsection{Additional References}
+
+\begin{itemize}
+    \item Vendor documentation
+    \item Microsoft Learn
+    \item MITRE ATT\&CK
+    \item Security research blogs
+    \item Internal SOC / DFIR notes
+\end{itemize}
+
+% =====================================================
+% DISCLAIMER
+% =====================================================
+\section{Disclaimer}
+
+\begin{warningbox}
+Educational and defensive security purposes only.
+
+All content is intended for Blue Team, Detection Engineering, Threat Hunting, Incident Response and Security Operations use cases.
+\end{warningbox}
+
+\vspace{1cm}
+
+\begin{center}
+\Huge
+\textcolor{primary}{Stay curious. Hunt anomalies.}
+\end{center}
+
+\end{document}
